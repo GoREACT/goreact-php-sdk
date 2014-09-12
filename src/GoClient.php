@@ -2,7 +2,7 @@
 
 namespace GoReact;
 
-use GuzzleHttp\Client;
+use Guzzle\Http\Client;
 
 /**
  * GoReact Client
@@ -37,7 +37,7 @@ class GoClient
      *
      * @param $username
      * @param $password
-     * @return \GuzzleHttp\Message\ResponseInterface
+     * @return \Guzzle\Http\Message\RequestInterface
      */
     public function authenticate($username, $password)
     {
@@ -45,16 +45,14 @@ class GoClient
 
         $client = new Client();
 
-        $response = $client->post('https://dev-api.goreact.com/oauth/token', array(
-            'body' => array(
-                'username' => $username,
-                'password' => $password,
-                'client_id' => $this->config->key,
-                'client_secret' => $this->config->secret,
-                'grant_type' => $grant_type
-            )
+        $request = $client->post('https://dev-api.goreact.com/oauth/token', array(), array(
+            'username' => $username,
+            'password' => $password,
+            'client_id' => $this->config->key,
+            'client_secret' => $this->config->secret,
+            'grant_type' => $grant_type
         ));
 
-        return $response;
+        return $request->send();
     }
 }
