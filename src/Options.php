@@ -16,4 +16,9 @@ class Options
      * @var string GoReact secret access key
      */
     const SECRET = 'secret';
+
+    /**
+     * @var string GoReact environment
+     */
+    const ENVIRONMENT = 'environment';
 }

@@ -13,17 +13,38 @@ class GoClient
 {
     private $config;
 
+    const ENVIRONMENT_DEV = "development";
+    const ENVIRONMENT_PROD = "production";
+    const ENDPOINT_DEV = "https://dev-api.goreact.com";
+    const ENDPOINT_PROD = "https://api.goreact.com";
+
     public function __construct(array $config) {
 
-        if (!isset($config[Options::KEY])) {
-            throw new \InvalidArgumentException("No access key defined");
+        $this->config = (object) $config;
+
+        if (!isset($this->config->{Options::KEY})) {
+            throw new \InvalidArgumentException("No access key defined (client id)");
         }
 
-        if (!isset($config[Options::SECRET])) {
+        if (!isset($this->config->{Options::SECRET})) {
             throw new \InvalidArgumentException("No secret key defined");
         }
 
-        $this->config = (object) $config;
+        // default to dev environment
+        if (!isset($this->config->{Options::ENVIRONMENT})) {
+            $this->config->{Options::ENVIRONMENT} = GoClient::ENVIRONMENT_DEV;
+        }
+
+        // if environment is not supported
+        if(!in_array($this->config->{Options::ENVIRONMENT}, array(GoClient::ENVIRONMENT_DEV, GoClient::ENVIRONMENT_PROD))) {
+            throw new \InvalidArgumentException("Environment $this->config->{Options::ENVIRONMENT} Not Supported");
+        }
+
+        if($this->config->{Options::ENVIRONMENT} === GoClient::ENVIRONMENT_PROD) {
+            $this->config->base_url = GoClient::ENDPOINT_PROD;
+        } else {
+            $this->config->base_url = GoClient::ENDPOINT_DEV;
+        }
     }
 
     /**
@@ -45,7 +66,7 @@ class GoClient
 
         $client = new Client();
 
-        $request = $client->post('https://dev-api.goreact.com/oauth/token', array(), array(
+        $request = $client->post($this->config->base_url . Methods::GET_TOKEN, array(), array(
             'username' => $username,
             'password' => $password,
             'client_id' => $this->config->key,
