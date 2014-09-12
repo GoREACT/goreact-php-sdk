@@ -37,7 +37,7 @@ class GoClient
 
         // if environment is not supported
         if(!in_array($this->config->{Options::ENVIRONMENT}, array(GoClient::ENVIRONMENT_DEV, GoClient::ENVIRONMENT_PROD))) {
-            throw new \InvalidArgumentException("Environment $this->config->{Options::ENVIRONMENT} Not Supported");
+            throw new \InvalidArgumentException("Environment {$this->config->{Options::ENVIRONMENT}} Not Supported");
         }
 
         if($this->config->{Options::ENVIRONMENT} === GoClient::ENVIRONMENT_PROD) {
