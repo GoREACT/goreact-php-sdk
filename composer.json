@@ -4,7 +4,7 @@
     "description": "GoReact PHP Client Library",
     "keywords": ["video", "feedback"],
     "homepage": "http://goreact.com",
-    "license": "",
+    "license": "GPL-3.0",
     "authors": [
         {
             "name": "Dallin Scherbel",
