@@ -3,7 +3,6 @@
 namespace GoReact;
 
 use GuzzleHttp\Client;
-use GoReact\ClientOptions as Options;
 
 /**
  * GoReact Client
@@ -17,11 +16,11 @@ class GoClient
     public function __construct(array $config) {
 
         if (!isset($config[Options::KEY])) {
-            throw new Exception("No access key defined");
+            throw new \InvalidArgumentException("No access key defined");
         }
 
         if (!isset($config[Options::SECRET])) {
-            throw new Exception("No secret key defined");
+            throw new \InvalidArgumentException("No secret key defined");
         }
 
         $this->config = (object) $config;

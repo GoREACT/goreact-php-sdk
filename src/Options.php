@@ -5,7 +5,7 @@ namespace GoReact;
 /**
  * Contains enumerable default options
  */
-class ClientOptions
+class Options
 {
     /**
      * @var string GoReact Access Key ID
