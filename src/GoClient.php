@@ -13,6 +13,8 @@ class GoClient
 {
     private $config;
 
+    const BASE_PROVIDER = "goreact";
+
     const ENVIRONMENT_DEV = "development";
     const ENVIRONMENT_PROD = "production";
     const ENDPOINT_DEV = "https://dev-api.goreact.com";
@@ -60,7 +62,7 @@ class GoClient
      * @param $password
      * @return \Guzzle\Http\Message\RequestInterface
      */
-    public function authenticate($username, $password)
+    public function authenticate($username, $password, $provider_name = self::BASE_PROVIDER)
     {
         $grant_type = "password";
 
@@ -69,6 +71,7 @@ class GoClient
         $request = $client->post($this->config->base_url . Methods::GET_TOKEN, array(), array(
             'username' => $username,
             'password' => $password,
+            'provider' => $provider_name,
             'client_id' => $this->config->key,
             'client_secret' => $this->config->secret,
             'grant_type' => $grant_type
