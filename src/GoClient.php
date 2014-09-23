@@ -60,6 +60,7 @@ class GoClient
      *
      * @param $username
      * @param $password
+     * @param $provider_name
      * @return \Guzzle\Http\Message\RequestInterface
      */
     public function authenticate($username, $password, $provider_name = self::BASE_PROVIDER)
