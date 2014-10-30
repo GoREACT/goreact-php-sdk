@@ -21,7 +21,6 @@ class GoClient
     const ENVIRONMENT_PROD = "production";
     const ENDPOINT_DEV = "https://dev-api.goreact.com";
     const ENDPOINT_PROD = "https://api.goreact.com";
-    const CA_PATH_PROD = "/etc/pki/tls/certs/";
 
     public function __construct(array $config) {
 
@@ -45,16 +44,18 @@ class GoClient
             throw new \InvalidArgumentException("Environment {$this->config->{Options::ENVIRONMENT}} Not Supported");
         }
 
+        if($this->config->{Options::ENVIRONMENT} === GoClient::ENVIRONMENT_PROD) {
+            $this->config->base_url = GoClient::ENDPOINT_PROD;
+        } else {
+            $this->config->base_url = GoClient::ENDPOINT_DEV;
+        }
+
         // instantiate guzzle client
         $this->client = new Client();
 
-        if($this->config->{Options::ENVIRONMENT} === GoClient::ENVIRONMENT_PROD) {
-            $this->config->base_url = GoClient::ENDPOINT_PROD;
-
-            // curl opts - set peer certificate issuer for production
-            $this->client->getConfig()->set('curl.options', array(CURLOPT_CAPATH => self::CA_PATH_PROD));
-        } else {
-            $this->config->base_url = GoClient::ENDPOINT_DEV;
+        // curl opts - set peer certificate issuer for production
+        if(isset($this->config->{Options::CA_PATH})) {
+            $this->client->getConfig()->set('curl.options', array(CURLOPT_CAPATH => $this->config->{Options::CA_PATH}));
         }
     }
 

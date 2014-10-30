@@ -21,4 +21,9 @@ class Options
      * @var string GoReact environment
      */
     const ENVIRONMENT = 'environment';
+
+    /**
+     * @var string SSL Certificate path
+     */
+    const CA_PATH = 'ca_path';
 }
