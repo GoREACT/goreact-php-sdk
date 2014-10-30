@@ -10,12 +10,12 @@ class Options
     /**
      * @var string GoReact Access Key ID
      */
-    const KEY = 'key';
+    const KEY = 'access_key';
 
     /**
      * @var string GoReact secret access key
      */
-    const SECRET = 'secret';
+    const SECRET = 'secret_key';
 
     /**
      * @var string GoReact environment
