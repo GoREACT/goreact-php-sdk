@@ -81,8 +81,8 @@ class GoClient
             'username' => $username,
             'password' => $password,
             'provider' => $provider_name,
-            'client_id' => $this->config->key,
-            'client_secret' => $this->config->secret,
+            'client_id' => $this->config->access_key,
+            'client_secret' => $this->config->secret_key,
             'grant_type' => $grant_type
         ));
 
