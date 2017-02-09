@@ -5,9 +5,9 @@ use GoReact\GoClient;
 require_once 'vendor/autoload.php';
 
 $options = [
-    "access_key" => "",
-    "secret_key" => "",
-    "environment" => ""
+    'access_key' => '',
+    'secret_key' => '',
+    'environment' => ''
 ];
 
 $username = '';
