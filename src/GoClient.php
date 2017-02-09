@@ -2,7 +2,7 @@
 
 namespace GoReact;
 
-use Guzzle\Http\Client;
+use GuzzleHttp\Client;
 
 /**
  * GoReact Client
@@ -52,11 +52,6 @@ class GoClient
 
         // instantiate guzzle client
         $this->client = new Client();
-
-        // curl opts - set peer certificate issuer for production
-        if(isset($this->config->{Options::CA_PATH})) {
-            $this->client->getConfig()->set('curl.options', array(CURLOPT_CAPATH => $this->config->{Options::CA_PATH}));
-        }
     }
 
     /**
@@ -76,15 +71,24 @@ class GoClient
     public function authenticate($username, $password, $provider_name = self::BASE_PROVIDER)
     {
         $grant_type = "password";
-
-        $request = $this->client->post($this->config->base_url . Methods::GET_TOKEN, array(), array(
-            'username' => $username,
-            'password' => $password,
-            'provider' => $provider_name,
-            'client_id' => $this->config->access_key,
+        $options = [
+          'body' => [
+            'username'      => $username,
+            'password'      => $password,
+            'provider'      => $provider_name,
+            'client_id'     => $this->config->access_key,
             'client_secret' => $this->config->secret_key,
-            'grant_type' => $grant_type
-        ));
+            'grant_type'    => $grant_type
+          ]
+        ];
+
+        // curl opts - set peer certificate issuer for production
+        if(isset($this->config->{Options::CA_PATH}))
+        {
+          $options['cert'] = [ $this->config->{Options::CA_PATH}, /* password */ ];
+        }
+
+        $request = $this->client->post($this->config->base_url . Methods::GET_TOKEN, $options);
 
         return $request->send();
     }

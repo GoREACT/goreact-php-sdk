@@ -18,11 +18,13 @@
 
     "require": {
         "php": ">=5.3.28",
-        "guzzle/guzzle": "3.*",
-        "symfony/event-dispatcher": "~2.1"
+        "symfony/event-dispatcher": "2.1.*",
+        "guzzlehttp/guzzle": "6.2.*"
     },
 
     "autoload": {
-        "psr-4": {"GoReact\\": "src/"}
+        "psr-4": {
+          "GoReact\\": "src/"
+        }
     }
 }
