@@ -65,14 +65,14 @@ class GoClient
      *
      * @param $username
      * @param $password
-     * @param $provider_name
-     * @return \Guzzle\Http\Message\RequestInterface
+     * @param string $provider_name
+     * @return \Psr\Http\Message\ResponseInterface
      */
     public function authenticate($username, $password, $provider_name = self::BASE_PROVIDER)
     {
         $grant_type = "password";
         $options = [
-          'body' => [
+          'form_params' => [
             'username'      => $username,
             'password'      => $password,
             'provider'      => $provider_name,
@@ -83,13 +83,11 @@ class GoClient
         ];
 
         // curl opts - set peer certificate issuer for production
-        if(isset($this->config->{Options::CA_PATH}))
+        if (isset($this->config->{Options::CA_PATH}))
         {
           $options['cert'] = [ $this->config->{Options::CA_PATH}, /* password */ ];
         }
 
-        $request = $this->client->post($this->config->base_url . Methods::GET_TOKEN, $options);
-
-        return $request->send();
+        return $this->client->post($this->config->base_url . Methods::GET_TOKEN, $options);
     }
 }
